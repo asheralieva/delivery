@@ -1,4 +1,45 @@
-<script>
+<script setup>
+import { reactive } from "vue";
+
+const formData = reactive({
+  username: "",
+  password: "",
+});
+
+const handleLogin = () => {
+  // Проверяем, что поля заполнены
+  if (!formData.username || !formData.password) {
+    alert("Заполните все поля!");
+    return;
+  }
+
+  console.log("Отправляем данные:", JSON.stringify(formData));
+
+  // Пример отправки данных на сервер
+  fetch("http://127.0.0.1:8000/api/token/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Ошибка авторизации");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Успех:", data);
+      localStorage.setItem("accessToken", data.access);
+      alert("Авторизация успешна!");
+      // Добавьте здесь логику перенаправления или сохранения токена
+    })
+    .catch((error) => {
+      console.error("Ошибка:", error);
+      alert("Не удалось авторизоваться. Проверьте данные.");
+    });
+};
 </script>
 
 <template>
@@ -7,18 +48,18 @@
       <div class="auth__content">
         <h1 class="sign">Sign In Form</h1>
         <div id="wrapper">
-          <form id="signin" method="post" action="" autocomplete="off">
+          <form id="signin" @submit.prevent="handleLogin" autocomplete="off">
             <input
               type="text"
-              id="user"
-              name="user"
+              id="username"
+              v-model="formData.username"
               placeholder="логин"
               required
             />
             <input
               type="password"
-              id="pass"
-              name="pass"
+              id="password"
+              v-model="formData.password"
               placeholder="пароль"
               required
             />
