@@ -46,11 +46,12 @@
   align-items: center;
   justify-content: center;
   height: 90vh;
+  padding: 5px;
 
 }
 .auth__content{
   background-color: #fff;
-  padding: 40px;
+  padding: 25px;
   border-radius: 40px;
 }
 .sign {
@@ -134,4 +135,5 @@
 #signin p > a:hover {
   border-bottom: 1px solid;
 }
+
 </style>

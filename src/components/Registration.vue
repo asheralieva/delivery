@@ -8,7 +8,7 @@ export default {
   <section class="reg">
     <div class="reg__container">
       <div class="reg__content">
-        <h1>Sign Up</h1>
+        <h1 class="registr">Sign Up</h1>
         <div id="wrapper">
           <form id="signup" method="post" action="" autocomplete="off">
             <input
@@ -49,13 +49,24 @@ export default {
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 
 .reg__container {
-  font-family: "Open Sans", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 90vh;
+  padding: 5px;
+
 }
 
+.reg__content{
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 40px;
+}
+.registr{
+  color: #000;
+  margin-bottom: 20px;
+  text-align: center;
+}
 #wrapper {
   position: relative;
   width: 320px;
@@ -63,7 +74,7 @@ export default {
 }
 
 #signup {
-  background: #1c1e21;
+  background: #839dc4;
   border-radius: 8px;
   padding: 10px;
   display: flex;
@@ -73,7 +84,7 @@ export default {
 
 #signup input[type="text"],
 #signup input[type="password"] {
-  background: #1c1e21;
+  background: #b9cdea;
   border: 2px solid #34383d;
   border-radius: 4px;
   height: 45px;
@@ -93,7 +104,7 @@ export default {
   align-items: center;
   width: 45px;
   height: 45px;
-  background: #34383d;
+  background: #b9cdea;
   border-radius: 50%;
   border: none;
   color: #fff;

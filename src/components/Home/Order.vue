@@ -1,8 +1,11 @@
 <template>
   <section class="order">
-    <div v-if="isDeliver=true" class="deliver">
+    <div v-if="(isDeliver = false)" class="deliver">
       <div class="deliver-item">
-        <span>AAAaaaa --<i class="arrow right"></i> BBB</span>
+        <span
+          >AAAaaaaaaaaaaaaaaaaaaaaaaaa --<i class="arrow right"></i>
+          BBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</span
+        >
         <span>размер: большой</span>
         <span>статус: завершен</span>
       </div>
@@ -118,7 +121,7 @@ const toggleDeliver = () => {
   .open-modal {
     display: none;
     flex-direction: column;
-    width: 900px;
+    max-width: 900px;
     gap: 15px;
     padding: 15px;
     border: 1px solid #007ea5;
@@ -140,12 +143,16 @@ const toggleDeliver = () => {
     padding: 8px;
     border-radius: 20px;
     background-color: #d2dcf9;
-        box-shadow: 0 0 10px #007ea5;
+    box-shadow: 0 0 10px #007ea5;
     justify-content: space-evenly;
     &-item {
       display: flex;
       gap: 40px;
       span {
+        white-space: wrap;
+        height: fit-content;
+        width: 100%;
+
         i {
           border: solid #000;
           border-width: 0 2px 2px 0;
@@ -158,23 +165,22 @@ const toggleDeliver = () => {
           -webkit-transform: rotate(-45deg);
         }
       }
-      
     }
     .accept {
-        border-radius: 10px;
-        border: 1px solid #007ea5;
-        padding: 6px;
-        background-color: #6c919c;
-        color: #141819;
-        font-size: 16px;
-        cursor: pointer;
-        width: 150px;
-      }
-      button.accept:hover {
-        background: #007ea5;
-        color: #fff;
-        box-shadow: 0 0 10px #007ea5;
-      }
+      border-radius: 10px;
+      border: 1px solid #007ea5;
+      padding: 6px;
+      background-color: #6c919c;
+      color: #141819;
+      font-size: 16px;
+      cursor: pointer;
+      width: 150px;
+    }
+    button.accept:hover {
+      background: #007ea5;
+      color: #fff;
+      box-shadow: 0 0 10px #007ea5;
+    }
   }
 
   .open-modal.active {
@@ -255,6 +261,42 @@ const toggleDeliver = () => {
     .user-price {
       margin-top: 20px;
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .order {
+    .deliver {
+      flex-direction: column;
+      
+      &-item {
+        flex-wrap: wrap;
+        span {
+        height: fit-content;
+        width: 100%;
+      }
+      }
+    }
+
+    input {
+      width: 190px;
+    }
+    span {
+      font-size: 15px;
+    }
+    &-mid {
+      select {
+        width: 110px;
+      }
+    }
+    &-place {
+      flex-wrap: wrap;
+    }
+  }
+}
+@media screen and (max-width: 425px) {
+  .order {
+    margin: 25px 50px;
   }
 }
 </style>

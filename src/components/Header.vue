@@ -43,8 +43,10 @@ header {
     .header-top {
       display: flex;
       align-items: center;
-      font-size: 16px;
-      color: #1852f0;
+      h3 {
+        font-size: 16px;
+        color: #1852f0;
+      }
       img {
         width: 110px;
       }
@@ -60,5 +62,21 @@ header {
   }
 
   background-color: #fff;
+}
+@media screen and (max-width: 768px) {
+  header {
+    padding: 5px;
+    .header-top {
+      h3 {
+        display: none;
+      }
+    }
+
+    nav{
+      a{
+        font-size: 14px;
+      }
+    }
+  }
 }
 </style>
