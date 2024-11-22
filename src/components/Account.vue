@@ -10,7 +10,7 @@
         <div class="account-history">
           <span>История заказов:</span>
           <div class="history-item">
-            <span> AAAaaaa --<i class="arrow right"></i> BBB</span>
+            <span> AAAaaaaaaaaaaaaaaaaa --<i class="arrow right"></i> BBBbbbbbbbbbbbb</span>
             <span>размер: большой</span>
             <span>статус: завершен</span>
           </div>
@@ -78,6 +78,26 @@
           transform: rotate(-45deg);
           -webkit-transform: rotate(-45deg);
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .account{
+    &-content{
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+}
+
+@media screen and (max-width: 425px){
+  .account{
+    margin: 25px 50px;
+    &-history{
+      .history-item{
+        flex-wrap: wrap;
       }
     }
   }
