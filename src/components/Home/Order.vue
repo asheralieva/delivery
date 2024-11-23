@@ -85,7 +85,7 @@
             <button class="cancel-btn" @click="toggleModal">
               Отменить заказ
             </button>
-            <button class="show-btn">Посмотреть</button>
+            <Router-link to="/map" class="show-btn">Посмотреть</Router-link>
           </div>
         </div>
       </div>
