@@ -2,42 +2,65 @@
   <section class="history">
     <div class="account-history">
       <span>{{ title }}</span>
-      <div class="history-item">
-        <span>
-          {{ start }}
-          {{ end }}
-        </span>
-        <span>статус: {{ status }}</span>
+      <div v-for="(order, index) in orders" :key="index" class="history-item">
+        <span> {{ order.startpoint }} - {{ order.endpoint }} </span>
+        <span>Статус: {{ order.status }}</span>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { ref, onMounted } from "vue";
+
+import { defineProps } from "vue";
+const token = localStorage.getItem("accessToken"); // Замените на ваш токен
+
+const orders = ref({});
+
+fetch("https://albertgadieva.pythonanywhere.com/api/orders/user/", {
+  method: "GET",
+  headers: {
+    Authorization: `Bearer ${token}`, // Добавляем токен
+    "Content-Type": "application/json", // Укажите, если требуется
+  },
+})
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`Ошибка HTTP: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then((data) => {
+    console.log(data);
+    orders.value = data; // Используем .value для изменения значения
+  })
+  .catch((error) => {
+    console.error("Ошибка при получении данных:", error);
+  });
 
 const props = defineProps({
   title: {
     type: String,
-    default: 'История заказов',
+    default: "История заказов",
   },
   start: {
     type: String,
-    default: 'AAAaaaaaaaaaaaaaaaaa',
+    default: "AAAaaaaaaaaaaaaaaaaa",
   },
   end: {
     type: String,
-    default: 'BBBbbbbbbbbbbbb',
+    default: "BBBbbbbbbbbbbbb",
   },
   size: {
     type: String,
-    default: 'большой',
+    default: "большой",
   },
   status: {
     type: String,
-    default: 'завершен',
+    default: "завершен",
   },
-})
+});
 </script>
 
 <style lang="scss">

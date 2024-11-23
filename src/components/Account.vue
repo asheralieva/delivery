@@ -46,27 +46,6 @@ onMounted(() => {
       console.error("Ошибка при получении данных:", error);
     });
 
-
-    fetch("https://albertgadieva.pythonanywhere.com/api/orders/user/", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`, // Добавляем токен
-      "Content-Type": "application/json", // Укажите, если требуется
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Ошибка HTTP: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      orders.value = data; // Используем .value для изменения значения
-    })
-    .catch((error) => {
-      console.error("Ошибка при получении данных:", error);
-    });
 });
 </script>
 
