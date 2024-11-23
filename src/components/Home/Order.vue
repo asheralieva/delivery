@@ -118,7 +118,7 @@
 import { ref } from "vue";
 
 const isOpen = ref(false);
-const isDeliver = ref(false);
+const isDeliver = ref(localStorage.getItem("isDelivery"));
 
 const orderDetails = ref({
   product_name: "",

@@ -41,6 +41,12 @@ onMounted(() => {
     .then((data) => {
       console.log(data);
       account.value = data; // Используем .value для изменения значения
+      if (data.is_delivery === true) {
+        localStorage.setItem("isDelivery", true);
+      } else {
+          localStorage.setItem("isDelivery", false);
+
+      }
     })
     .catch((error) => {
       console.error("Ошибка при получении данных:", error);
