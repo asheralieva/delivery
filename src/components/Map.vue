@@ -12,24 +12,41 @@
 
 <script setup>
 import { onMounted } from "vue";
+import L from "leaflet";
+import "leaflet-routing-machine";
+
+let map;
 
 onMounted(() => {
-  const L = require("leaflet");
-  require("leaflet-routing-machine");
+  // Создаем карту
+  map = L.map("map").setView([51.505, -0.09], 13);
 
-  const map = L.map("map").setView([55.7558, 37.6173], 13);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+  // Добавляем слой карты (OpenStreetMap)
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+  }).addTo(map);
 
-  navigator.geolocation.getCurrentPosition((position) => {
-    const userLocation = L.latLng(
-      position.coords.latitude,
-      position.coords.longitude
-    );
+  // Геолокация пользователя
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const userCoords = [position.coords.latitude, position.coords.longitude];
 
-    L.Routing.control({
-      waypoints: [userLocation, L.latLng(55.7512, 37.618)], // Конечная точка
-    }).addTo(map);
-  });
+      // Добавляем метку текущего местоположения
+      L.marker(userCoords).addTo(map).bindPopup("Вы здесь").openPopup();
+
+      // Добавляем маршрутизацию
+      L.Routing.control({
+        waypoints: [
+          L.latLng(userCoords), // Точка отправления
+          L.latLng(51.515, -0.1), // Точка назначения (пример)
+        ],
+        routeWhileDragging: true,
+      }).addTo(map);
+    },
+    (error) => {
+      console.error("Ошибка получения геолокации:", error);
+    }
+  );
 });
 </script>
 

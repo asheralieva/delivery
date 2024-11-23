@@ -4,13 +4,16 @@
       <div class="account-content">
         <div class="account-info">
           <img src="../assets/logo-profile.webp" alt="" />
-          <span>ФИО</span>
-          <span>логин</span>
+          <span>{{account.last_name }} {{ account.first_name  }}</span>
+          <span>{{ account.username }}</span>
         </div>
         <div class="account-history">
           <span>История заказов:</span>
           <div class="history-item">
-            <span> AAAaaaaaaaaaaaaaaaaa --<i class="arrow right"></i> BBBbbbbbbbbbbbb</span>
+            <span>
+              AAAaaaaaaaaaaaaaaaaa --<i class="arrow right"></i>
+              BBBbbbbbbbbbbbb</span
+            >
             <span>размер: большой</span>
             <span>статус: завершен</span>
           </div>
@@ -21,7 +24,35 @@
 </template>
 
 <script setup>
-  
+import { ref, onMounted } from "vue";
+
+const account = ref({});
+
+onMounted(() => {
+  const token = localStorage.getItem("accessToken"); // Замените на ваш токен
+
+  fetch("http://127.0.0.1:8000/api/currentuser/", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`, // Добавляем токен
+      "Content-Type": "application/json", // Укажите, если требуется
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Ошибка HTTP: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      account.value = data;  // Используем .value для изменения значения
+      
+      })
+    .catch((error) => {
+      console.error("Ошибка при получении данных:", error);
+    });
+});
 </script>
 
 <style lang="scss" scoped>
@@ -85,19 +116,19 @@
 }
 
 @media screen and (max-width: 768px) {
-  .account{
-    &-content{
+  .account {
+    &-content {
       flex-wrap: wrap;
       justify-content: center;
     }
   }
 }
 
-@media screen and (max-width: 425px){
-  .account{
+@media screen and (max-width: 425px) {
+  .account {
     margin: 25px 50px;
-    &-history{
-      .history-item{
+    &-history {
+      .history-item {
         flex-wrap: wrap;
       }
     }
