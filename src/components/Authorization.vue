@@ -16,7 +16,7 @@ const handleLogin = () => {
   console.log("Отправляем данные:", JSON.stringify(formData));
 
   // Пример отправки данных на сервер
-  fetch("http://127.0.0.1:8000/api/token/", {
+  fetch("https://albertgadieva.pythonanywhere.com/api/token/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

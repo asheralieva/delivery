@@ -84,7 +84,7 @@ const handleSubmit = () => {
 
 
   // Пример отправки данных на сервер
-  fetch("http://127.0.0.1:8000/api/register/", {
+  fetch("https://albertgadieva.pythonanywhere.com/api/register/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

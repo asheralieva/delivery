@@ -1,17 +1,19 @@
 <template>
   <section class="order">
-    <div v-if="(isDeliver = false)" class="deliver">
+    <!-- Доставка -->
+    <div v-if="isDeliver" class="deliver">
       <div class="deliver-item">
-        <span
-          >AAAaaaaaaaaaaaaaaaaaaaaaaaa --<i class="arrow right"></i>
-          BBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</span
-        >
+        <span>
+          AAAaaaaaaaaaaaaaaaaaaaaaaaa --<i class="arrow right"></i>
+          BBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+        </span>
         <span>размер: большой</span>
         <span>статус: завершен</span>
       </div>
       <button class="accept" @click="toggleDeliver">Принять</button>
     </div>
 
+    <!-- Заказ -->
     <div v-else class="order-container">
       <div class="order-content">
         <div class="order-mid">
@@ -22,9 +24,17 @@
               id="from"
               name="from"
               placeholder="из"
+              v-model="orderDetails.startpoint"
               required
             />
-            <input type="text" id="to" name="to" placeholder="в" required />
+            <input
+              type="text"
+              id="to"
+              name="to"
+              placeholder="в"
+              v-model="orderDetails.endpoint"
+              required
+            />
           </div>
 
           <div class="order-user">
@@ -70,14 +80,21 @@
             </div>
             <div class="user-price">
               <span>Оплата</span>
-              <select name="payment" id="payment">
+              <select name="payment" id="payment" v-model="orderDetails.payment">
                 <option value="card">Картой</option>
                 <option value="cash">Наличкой</option>
               </select>
             </div>
           </div>
 
-          <!-- Выпадающее окно -->
+          <div class="order-details">
+            <input
+              type="text"
+              v-model="orderDetails.product_name"
+              placeholder="Название товара"
+            />
+          </div>
+
           <div class="open-modal" :class="{ active: isOpen }">
             <span>Цена: 200 сом</span>
             <span>Размер груза: большой</span>
@@ -85,27 +102,66 @@
             <button class="cancel-btn" @click="toggleModal">
               Отменить заказ
             </button>
-            <Router-link to="/map" class="show-btn">Посмотреть</Router-link>
+            <router-link to="/map" class="show-btn">Посмотреть</router-link>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Кнопка отправки -->
+    <button @click="submitForm">Отправить</button>
   </section>
 </template>
+
 
 <script setup>
 import { ref } from "vue";
 
 const isOpen = ref(false);
-
 const isDeliver = ref(false);
 
+const orderDetails = ref({
+  product_name: "",
+  startpoint: "",
+  endpoint: "",
+});
+
+// Функция для переключения модального окна
 const toggleModal = () => {
   isOpen.value = !isOpen.value;
 };
 
+// Функция для переключения доставки
 const toggleDeliver = () => {
   isDeliver.value = !isDeliver.value;
+};
+
+
+
+// Отправка данных формы
+const submitForm = () => {
+  console.log(JSON.stringify(orderDetails.value));
+  const token = localStorage.getItem("accessToken");
+  fetch("https://albertgadieva.pythonanywhere.com/api/orders/create/", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(orderDetails.value),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Ошибка");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Успех:", data);
+    })
+    .catch((error) => {
+      console.error("Ошибка:", error);
+    });
 };
 </script>
 
@@ -262,41 +318,30 @@ const toggleDeliver = () => {
       margin-top: 20px;
     }
   }
+
+  .order-details {
+    margin-top: 20px;
+    input {
+      margin-bottom: 10px;
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {
   .order {
     .deliver {
       flex-direction: column;
-      
+
       &-item {
-        flex-wrap: wrap;
-        span {
-        height: fit-content;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .accept {
+        margin-top: 20px;
         width: 100%;
       }
-      }
     }
-
-    input {
-      width: 190px;
-    }
-    span {
-      font-size: 15px;
-    }
-    &-mid {
-      select {
-        width: 110px;
-      }
-    }
-    &-place {
-      flex-wrap: wrap;
-    }
-  }
-}
-@media screen and (max-width: 425px) {
-  .order {
-    margin: 25px 50px;
   }
 }
 </style>

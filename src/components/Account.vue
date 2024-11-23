@@ -25,7 +25,7 @@ const orders = ref({});
 onMounted(() => {
   const token = localStorage.getItem("accessToken"); // Замените на ваш токен
 
-  fetch("http://127.0.0.1:8000/api/currentuser/", {
+  fetch("https://albertgadieva.pythonanywhere.com/api/currentuser/", {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`, // Добавляем токен
@@ -47,7 +47,7 @@ onMounted(() => {
     });
 
 
-    fetch("http://127.0.0.1:8000/api/orders/user/", {
+    fetch("https://albertgadieva.pythonanywhere.com/api/orders/user/", {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`, // Добавляем токен
